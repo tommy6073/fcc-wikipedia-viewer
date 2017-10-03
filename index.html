@@ -9,6 +9,30 @@
 <main>
   <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Click here for a random article</a>
   <input type="text" id="search-wikipedia" placeholder="Search for articles in Wikipedia...">
+  <ul id="search-result"></ul>
 </main>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+  $("#search-wikipedia").keypress(function (e) {
+    if (e.which === 13) {
+      // display list of searched articles
+      console.log("Enter pressed!");
+      $.ajax({
+        url: "https://en.wikipedia.org/w/api.php?action=query&format=json&gsrlimit=10&generator=search&origin=*&prop=extracts&exintro&explaintext&exsentences=1&exlimit=max&gsrsearch=" + $(this).val(),
+        cache: false
+      })
+        .then(
+          function (data) {
+            $("#search-result").empty();
+            $.each(data.query.pages, function (index, val) {
+              $("#search-result").append("<a href='https://en.wikipedia.org/?curid=" + val.pageid + "' target='_blank'><li class='article'>" + "<div class='title'>" + val.title + "</div>" + "<div class='extract'>" + val.extract + "</div></a>");
+            });
+          },
+          function () {
+            console.log("Wikipedia API fetch failed.");
+          });
+    }
+  });
+</script>
 </body>
 </html>
