@@ -7,7 +7,7 @@
 </head>
 <body>
 <main>
-  <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Click here for a random article</a>
+  <a id="random-article" href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Click here for a random article</a>
   <input type="text" id="search-wikipedia" placeholder="Search for articles in Wikipedia...">
   <ul id="search-result"></ul>
 </main>
@@ -25,7 +25,7 @@
           function (data) {
             $("#search-result").empty();
             $.each(data.query.pages, function (index, val) {
-              $("#search-result").append("<a href='https://en.wikipedia.org/?curid=" + val.pageid + "' target='_blank'><li class='article'>" + "<div class='title'>" + val.title + "</div>" + "<div class='extract'>" + val.extract + "</div></a>");
+              $("#search-result").append("<a class='result-link' href='https://en.wikipedia.org/?curid=" + val.pageid + "' target='_blank'><li class='article'>" + "<div class='title'>" + val.title + "</div>" + "<div class='extract'>" + val.extract + "</div></a>");
             });
           },
           function () {
